@@ -1,0 +1,172 @@
+pom.xml file
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>hotmail</groupId>
+	<artifactId>automation-tests</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>automation tests</name>
+	
+	  <repositories>
+    <repository>
+        <!-- OSSRH: com.sikulix -->
+        <id>com.sikulix</id>
+        <name>com.sikulix</name>
+        <url>https://oss.sonatype.org/content/groups/public</url>
+        <layout>default</layout>
+        <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        </snapshots>
+    </repository>
+  </repositories>
+
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.4.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+
+<dependency>
+        <groupId>com.sikulix</groupId>
+        <artifactId>sikulixapi</artifactId>
+        <!-- <version>1.1.0</version> -->
+        <version>1.1.4-SNAPSHOT</version>
+    </dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>16</source>
+					<target>16</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+</project>
+
+
+testng file
+package hotmail;
+
+import java.io.File;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Pattern;
+import org.sikuli.script.Screen;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class microsoft {
+	WebDriver driver;
+
+	@BeforeMethod
+	public void openbrowser() {
+		System.setProperty("webdriver.chrome.driver", "G:/chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+
+		driver.get("https://outlook.live.com");
+
+	}
+
+	@Test(priority = 1)
+	public void automating() throws InterruptedException, FindFailed {
+		driver.findElement(By.linkText("Sign in")).click();
+
+		driver.findElement(By.xpath("//*[@id=\"i0116\"]")).sendKeys("veerane_888@hotmail.com");
+		driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click();
+		driver.findElement(By.xpath("//*[@id=\"i0118\"]")).sendKeys("14ME1A0418");
+
+		Thread.sleep(4000);
+		String imageFilepath = "C:\\Users\\5080\\Pictures\\";
+
+		Screen s = new Screen();
+
+		Pattern filesignin = new Pattern(imageFilepath + "Capture.PNG");
+		Pattern mailname = new Pattern(imageFilepath + "Capture6.PNG");
+		Pattern docx = new Pattern(imageFilepath + "Capture3.PNG");
+		Pattern download = new Pattern(imageFilepath + "Capture4.PNG");
+		Pattern no = new Pattern(imageFilepath + "NOO.PNG");
+
+		s.click(filesignin);
+
+		Thread.sleep(4000);
+
+		s.click(no);
+
+		Thread.sleep(18000);
+
+		s.click(mailname);
+
+		Thread.sleep(9000);
+
+		s.click(docx);
+
+		Thread.sleep(9000);
+
+		s.click(download);
+
+		Thread.sleep(9000);
+
+		if (isFileExist("C:\\Users\\5080\\Downloads\\testing.docx")) {
+			System.out.println("file exists");
+		} else {
+			System.out.println("doesnt exist");
+		}
+
+	}
+
+	@Test(priority = 2)
+	static boolean isFileExist(String path) {
+		File f = new File(path);
+		if (f.exists()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@AfterMethod
+	public void closebrowser() {
+		driver.close();
+	}
+}
+
+
