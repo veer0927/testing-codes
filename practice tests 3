@@ -1,0 +1,66 @@
+package multiple;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+
+public class BatchTesting {
+public static WebDriver driver;
+//Launch Browser
+public void launch(){
+driver = new ChromeDriver();
+driver.manage().window().maximize();
+}
+//Close Browser
+public void closeBrowser(){
+driver.close();
+}
+//Admin Login
+public void login(String Username, String Password){
+driver.get("http://www.gcrit.com/build3/admin/");
+driver.findElement(By.name("username")).sendKeys(Username);
+driver.findElement(By.name("password")).sendKeys(Password);
+driver.findElement(By.id("tdb1")).click();
+}
+public static void main(String[] args) {
+System.setProperty("webdriver.chrome.driver", "G:/chromedriver.exe");
+BatchTesting obj=new BatchTesting();
+//Test Case 1: Verify Admin Login (Positive Test Case)
+obj.launch();
+obj.login("admin", "admin@123");
+String url=driver.getCurrentUrl();
+if (url.contains("http://gcreddy.com/project/admin/login.php")){
+System.out.println("Test Case 1: "+ "Admin Login is Successful - Passed");
+}
+else{
+System.out.println("Test Case 1: "+ "Admin Login is unsuccessful - Failed");
+}
+obj.closeBrowser();
+//Verify Error Message in Admin Login Functionality (Negative Test Case)
+obj.launch();
+obj.login("admin1", "abcder");
+String ErrorMessage=driver.findElement(By.className("messageStackError")).getText();
+//System.out.println(ErrorMessage);
+if (ErrorMessage.contains("Error: Invalid administrator login attempt.")){
+System.out.println("Test Case 2: "+ "Admin Login is Unsuccessful & Showing Correct Error Message -Passed");
+}
+else {
+System.out.println("Test Case 2: "+ "Admin Login is Unsuccessful & Not Showing Correct Error Message -Failed");
+}
+obj.closeBrowser();
+//Test Case 3: Verify Redirect Functionality from Admin Interface to user Interface
+obj.launch();
+obj.login("admin", "admin@123");
+driver.findElement(By.linkText("Online Catalog")).click();
+String url2=driver.getCurrentUrl();
+if (url2.equals("http://gcreddy.com/project/admin/login.php")){
+System.out.println("Test Case 3: "+ "Redirected from Admin Interface to User Interface - Passed");
+}
+else {
+System.out.println("Test Case 3: "+ "Not Redirected from Admin Interface to User Interface - Passed");
+}
+obj.closeBrowser();
+}
+}
