@@ -16,6 +16,7 @@ driver.manage().window().maximize();
 driver.get("https://en.wikipedia.org/wiki/Selenium_(software)#Selenium_WebDriver");
 driver.findElement(By.linkText("Create account")).click();
 String url1=driver.getCurrentUrl();
+
 //System.out.println(url1);
 if (url1.contains("wikipedia.org")){
 System.out.println("1st Verification: "+ "It is an Internal Link - Passed");
