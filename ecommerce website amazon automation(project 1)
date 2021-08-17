@@ -1,0 +1,53 @@
+package flipkart;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Pattern;
+import org.sikuli.script.Screen;
+
+public class OrderplacementTest {
+
+	public static void main(String[] args) throws InterruptedException, FindFailed {
+
+		System.setProperty("webdriver.chrome.driver", "G:/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+
+		driver.manage().window().maximize();
+
+		driver.get("https://www.amazon.in/");
+
+		Thread.sleep(5000);
+
+		driver.findElement(By.id("twotabsearchtextbox")).sendKeys("oneplus 6t");
+		driver.findElement(By.id("nav-search-submit-button")).click();
+
+		Thread.sleep(5000);
+
+		String imagefilepath = "C:\\Users\\5080\\Pictures\\";
+
+		Screen s = new Screen();
+
+		Pattern product = new Pattern(imagefilepath + "phone.PNG");
+		Pattern add = new Pattern(imagefilepath + "cart.PNG");
+		Pattern cart = new Pattern(imagefilepath + "incart.PNG");
+
+		s.click(product);
+
+		Thread.sleep(4000);
+
+		s.click(add);
+
+		Thread.sleep(4000);
+
+		s.click(cart);
+
+		Thread.sleep(5000);
+		System.out.println("successfully added");
+
+		driver.close();
+
+	}
+
+}
