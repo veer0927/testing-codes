@@ -31,6 +31,7 @@ BatchTesting obj=new BatchTesting();
 obj.launch();
 obj.login("admin", "admin@123");
 String url=driver.getCurrentUrl();
+
 if (url.contains("http://gcreddy.com/project/admin/login.php")){
 System.out.println("Test Case 1: "+ "Admin Login is Successful - Passed");
 }
